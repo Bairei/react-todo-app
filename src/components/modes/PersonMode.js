@@ -7,14 +7,21 @@ export class PersonMode extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            person: -1,
-            isRedirected: false
+            id: -1,
+            isRedirected: false,
+            persons: [],
         }
     }
+
+    componentDidMount() {
+        fetch(API).then(response => {
+            response.json().then(data => this.setState({persons: data}));
+        });
+    }
     
-    handleMonthSwitched(value) {
+    handlePersonSwitched(event) {
         this.setState({
-            person: value
+            id: event.target.value
         });
     }
 
@@ -28,10 +35,22 @@ export class PersonMode extends Component {
 
     render() {
 
+        let personOptions = this.state.persons.map((item) => {
+            return <option value={item.id} key={item.id}> #{item.id}: {item.firstName} {item.lastName} </option>;
+        });
+
         if(this.state.isRedirected) {
             // TODO: redirect to correct page
+            let redirectedPerson = this.state.persons.find(item => {
+                return item.id === parseInt(this.state.id, 10); 
+            });
             return(
-                <Redirect to={"/events/persons-plan/" + this.state.person}/>
+                <Redirect to={{
+                    pathname:"/events/persons-plan/" + redirectedPerson.id,
+                    state: {
+                        person: redirectedPerson
+                    }
+                }}/>
             );
         }
 
@@ -41,10 +60,9 @@ export class PersonMode extends Component {
                     Proszę wybierz osobę, której wydarzenia chcesz obejrzeć:
                 </p>
                 <div className="lead">
-                    {/* TODO: select for persons */}
-                    {/* <select name="personSelect" class="form-control" id="personSelect" ng-model="person">
-                        <option ng-repeat="person in people" value="{{person.id}}">{{person.firstName}} {{person.lastName}}</option>
-                    </select> */}
+                    <select name="person" className="form-control" id="personSelect" onChange={this.handlePersonSwitched.bind(this)}>
+                        {personOptions}
+                    </select>
                     <br/>
                     <div className="btn-group">
                         <button className="btn btn-primary" onClick={() => this.goToPersonMode()}>Przejdź dalej</button>
@@ -56,3 +74,10 @@ export class PersonMode extends Component {
         );
     }
 }
+
+PersonMode.propTypes = {
+    id: PropTypes.number,
+    persons: PropTypes.array
+}
+
+const API = 'http://localhost:4000/students';
