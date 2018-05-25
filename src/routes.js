@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { HomePage } from './shared/HomePage';
+import { HomePage } from './components/HomePage';
 
 const Routes = () => {
     return (

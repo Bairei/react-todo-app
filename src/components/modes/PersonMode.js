@@ -35,7 +35,7 @@ export class PersonMode extends Component {
             );
         }
 
-        return(
+        return (
             <div>
                 <p className="lead">
                     Proszę wybierz osobę, której wydarzenia chcesz obejrzeć:
