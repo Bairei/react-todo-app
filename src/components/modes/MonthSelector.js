@@ -37,7 +37,8 @@ export class MonthSelector extends Component {
         });
 
         return (
-            <select className="form-control col-sm-3" name="month" onChange={this.handleMonthSwitch.bind(this)}>
+            <select className="form-control col-sm-3" name="month" onChange={this.handleMonthSwitch.bind(this)}>4
+                <option value="-1">---</option>
                 {monthOptions}
             </select>
         );

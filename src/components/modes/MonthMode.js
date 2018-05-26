@@ -43,7 +43,6 @@ export class MonthMode extends Component {
                     Proszę wybierz miesiąc:
                 </p>
                 <div>
-                    {/* TODO: MonthSelector component */}
                     <MonthSelector onUpdateHandler={this.handleMonthSwitched.bind(this)}/>
                     <br/>
                     <div className="btn-group">
