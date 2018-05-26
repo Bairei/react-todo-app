@@ -40,7 +40,6 @@ export class PersonMode extends Component {
         });
 
         if(this.state.isRedirected) {
-            // TODO: redirect to correct page
             let redirectedPerson = this.state.persons.find(item => {
                 return item.id === parseInt(this.state.id, 10); 
             });

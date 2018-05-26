@@ -34,7 +34,7 @@ export class PersonsPlanList extends Component {
 
     render(){
         let recordsComponent = '';
-
+        let personComponent = '';
         if(this.state.events.length < 1) {
             recordsComponent = (
                 <div>Przepraszamy, ale ta osoba nie ma żadnych wydarzeń. Możesz jednak stworzyć nowe wydarzenie, używając przycisków na dole.</div>
@@ -53,11 +53,16 @@ export class PersonsPlanList extends Component {
             );
         }
 
+        if(this.state.person.firstName != null && this.state.person.lastName) {
+            personComponent = (
+                <h1>Przeglądasz wydarzenia dla osoby {this.state.person.firstName} {this.state.person.lastName}:</h1>
+            )
+        }
+
         return(
             <div>
                 <div>
-                    {/* <h1>Przeglądasz wydarzenia dla osoby {{ person }}</h1> */}
-
+                    {personComponent}
                     {/* TODO: create Events navigation bar, or skip it */}
                     {/* <events-navigation on-update-sort="setSort(key)" on-update-filter="setFilter(key)"></events-navigation> */}
                     {/* <div ng-repeat="event in events | filter: filterPhrase | orderBy: orderByPhrase">
