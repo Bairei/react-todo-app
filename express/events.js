@@ -6,8 +6,8 @@ var router = express.Router();
 //{id: 2, title: 'Nauka'},
 //{id: 3, title: 'Odpoczynek'}
 var events = [
-    {id: 1, title: 'Zrobic zakupy spozywcze', category: 1, date: '05-21-2018', period: 1, person: 1},
-    {id: 2, title: 'Pojsc do kina', category: 3, date: '05-11-2018', period: 3, person: 1},
+    {id: 1, title: 'Zrobić zakupy spozywcze', category: 1, date: '05-21-2018', period: 1, person: 1},
+    {id: 2, title: 'Pójść do kina', category: 3, date: '05-11-2018', period: 3, person: 1},
     {id: 3, title: 'Odrobić lekcje', category: 2, date: '05-21-2018', period: 5, person: 1},
     {id: 4, title: 'Zrobić projekt z BSK', category: 1, date: '05-13-2018', period: 2, person: 2},
     {id: 5, title: 'Kupić nowe opony', category: 2, date: '05-14-2018', period: 6, person: 2},

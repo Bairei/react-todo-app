@@ -48,6 +48,9 @@ export class EventForm extends Component {
                         })
                     })
                 }
+            })
+            .then(unusedVariable => {
+                this.validateData(); // validate everything after fetching from API when editing, so the save button will be available if everything's ok
             });
         }
     }
