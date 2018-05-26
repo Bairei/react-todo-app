@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import {  Link } from 'react-router-dom';
 
 import { MonthDisplay } from './MonthDisplay';
+import { EventCard } from '../event/EventCard';
+import moment from 'moment';
 
 export class MonthlyPlanList extends Component {
     constructor(props) {
@@ -14,12 +16,12 @@ export class MonthlyPlanList extends Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         fetch(STUDENTS_API)
         .then(response => {
             if (response.ok) {
                 response.json().then(data => {
-                    console.log(data);
+                    // console.log(data);
                     this.setState({persons: data});
                 });
             }
@@ -29,7 +31,7 @@ export class MonthlyPlanList extends Component {
             .then(response => {
                 if (response.ok) {
                     response.json().then(data => {
-                        console.log(data);
+                        // console.log(data);
                         this.setState({events: data});
                     });
                 }
@@ -54,15 +56,17 @@ export class MonthlyPlanList extends Component {
                 });
                 // console.log(person);
                 return (
-                    <li key={event.id}>{event.id} - {event.title}, by: {person.firstName} {person.lastName}</li>
+                    //<li key={event.id}>{event.id} - {event.title}, by: {person.firstName} {person.lastName}</li>
+                    <EventCard  key={event.id} id={event.id} title={event.title} date={moment(event.date, 'MM-DD-YYYY')} 
+                                period={event.period} personId={person.id} personFirstName={person.firstName}
+                                personLastName={person.lastName} category={event.category}/>
+                    
                 );
             });
 
             recordsComponent = (
                 <div>
-                    <ul className="list-group">
-                        {recordsList}
-                    </ul>
+                    {recordsList}
                 </div>
             );
         }

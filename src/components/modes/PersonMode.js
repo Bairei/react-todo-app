@@ -30,7 +30,9 @@ export class PersonMode extends Component {
     }
 
     goToPersonMode() {
-        this.setState({ isRedirected: true });
+        if(this.state.id > 0){
+            this.setState({ isRedirected: true });
+        }
     }
 
     render() {
@@ -60,11 +62,12 @@ export class PersonMode extends Component {
                 </p>
                 <div className="lead">
                     <select name="person" className="form-control" id="personSelect" onChange={this.handlePersonSwitched.bind(this)}>
+                        <option value="-1" disabled defaultValue>---</option>
                         {personOptions}
                     </select>
                     <br/>
                     <div className="btn-group">
-                        <button className="btn btn-primary" onClick={() => this.goToPersonMode()}>Przejdź dalej</button>
+                        <button className="btn btn-primary" disabled={this.state.id === -1} onClick={() => this.goToPersonMode()}>Przejdź dalej</button>
                         <button className="btn btn-warning" onClick={() => this.clearChoice()}>Cofnij wybór</button>
                     </div>
                 </div>

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {  Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import moment from 'moment';
+
+import { EventCard } from '../event/EventCard';
 
 
 export class DailyPlanList extends Component {
@@ -19,7 +22,7 @@ export class DailyPlanList extends Component {
         .then(response => {
             if (response.ok) {
                 response.json().then(data => {
-                    console.log(data);
+                    // console.log(data);
                     this.setState({persons: data});
                 });
             }
@@ -29,7 +32,7 @@ export class DailyPlanList extends Component {
             .then(response => {
                 if (response.ok) {
                     response.json().then(data => {
-                        console.log(data);
+                        // console.log(data);
                         this.setState({events: data});
                     });
                 }
@@ -54,7 +57,9 @@ export class DailyPlanList extends Component {
                 });
                 // console.log(person);
                 return (
-                    <li key={event.id}>{event.id} - {event.title}, by: {person.firstName} {person.lastName}</li>
+                    <EventCard  key={event.id} id={event.id} title={event.title} date={moment(event.date, 'MM-DD-YYYY')} 
+                                period={event.period} personId={person.id} personFirstName={person.firstName}
+                                personLastName={person.lastName} category={event.category}/>
                 );
             });
 
@@ -69,7 +74,7 @@ export class DailyPlanList extends Component {
 
         return (
             <div>
-                <h1>Przeglądasz wydarzenia dla dnia {this.state.date}</h1>
+                <h1>Przeglądasz wydarzenia dla dnia {moment(this.state.date, 'MM-DD-YYYY').format('DD.MM.YYYY')}</h1>
                 {recordsComponent}
                 <br/><br/>
                 <div className="text-right">

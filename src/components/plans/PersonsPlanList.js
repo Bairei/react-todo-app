@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {  Link } from 'react-router-dom';
+import moment from 'moment';
+
+import { EventCard } from '../event/EventCard';
 
 export class PersonsPlanList extends Component {
     constructor(props) {
@@ -43,13 +46,15 @@ export class PersonsPlanList extends Component {
             // TODO: create EventComponent and replace unordered list component with iterated components
             let recordsList = this.state.events.map(event => {
                 return (
-                    <li key={event.id}>{event.id} - {event.title}</li>
+                    <EventCard  key={event.id} id={event.id} title={event.title} date={moment(event.date, 'MM-DD-YYYY')} 
+                                period={event.period} personId={this.state.person.id} personFirstName={this.state.person.firstName}
+                                personLastName={this.state.person.lastName} category={event.category}/>
                 );
             });
             recordsComponent = (
-                <ul className="list-group">
+                <div>
                     {recordsList}
-                </ul>
+                </div>
             );
         }
 
