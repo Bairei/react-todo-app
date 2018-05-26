@@ -37,7 +37,7 @@ export class PersonsPlanList extends Component {
 
     render(){
         let submittedAlert = '';
-        if(this.props.location.state.redirected) {
+        if(typeof this.props.location.state !== 'undefined' && this.props.location.state.redirected) {
             submittedAlert = (
                 <div className="alert alert-success">
                     Wydarzenie pomyślnie zapisano!
