@@ -61,8 +61,8 @@ export class PersonMode extends Component {
                     Proszę wybierz osobę, której wydarzenia chcesz obejrzeć:
                 </p>
                 <div className="lead">
-                    <select name="person" className="form-control" id="personSelect" onChange={this.handlePersonSwitched.bind(this)}>
-                        <option value="-1" disabled defaultValue>---</option>
+                    <select name="person" className="form-control" id="personSelect" onChange={this.handlePersonSwitched.bind(this)} value={this.state.id}>
+                        <option value="-1" disabled>---</option>
                         {personOptions}
                     </select>
                     <br/>
