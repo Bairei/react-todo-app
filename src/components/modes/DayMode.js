@@ -39,8 +39,14 @@ export class DayMode extends Component {
                         let dates = data.map(item => {
                             return moment(item.date, 'MM-DD-YYYY');
                         });
-                        console.log(dates);
-                        this.setState({availableDates: dates});
+
+                        let found = dates.find(function (value) {
+                            return value.format('MM-DD-YYYY') === moment().format('MM-DD-YYYY');
+                        });
+                        this.setState({
+                            availableDates: dates,
+                            date: typeof found === 'undefined' ? null : moment()
+                        });
                     });
                 }
             })
@@ -84,4 +90,4 @@ const EVENTS_API = 'http://localhost:4000/events';
 
 DayMode.propTypes = {
     date: PropTypes.string
-}
+};
