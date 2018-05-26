@@ -62,7 +62,7 @@ export class EventCard extends Component {
                     <p className="card-text"><b>Przedział czasowy:</b> {periodStr}</p>
                     <p className="card-text">
                         <b>Osoba: </b> 
-                        <Link to={`/event/persons-plan/${this.state.personId}`}>{this.state.personFirstName} {this.state.personLastName}</Link>
+                        <Link to={`/events/persons-plan/${this.state.personId}`}>{this.state.personFirstName} {this.state.personLastName}</Link>
                     </p>
                     <div className="btn-group">
                         <Link to={`/event/edit/${this.state.id}`} className="btn btn-primary">Edytuj</Link>
