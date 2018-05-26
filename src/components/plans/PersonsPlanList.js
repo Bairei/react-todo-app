@@ -15,24 +15,24 @@ export class PersonsPlanList extends Component {
         }
     }
 
-    componentDidMount(){
+    componentWillMount(){
         fetch(STUDENT_API + `/${this.state.id}`)
             .then(response => {
                 if(response.ok) {
                     response.json().then(data => {
                         this.setState({person: data});
+                        fetch(EVENTS_API + `/${this.state.id}`)
+                        .then((response) => {
+                            if (response.ok) {
+                                response.json().then(data => {
+                                    this.setState({events: data})
+                                });
+                            }
+                        });
                     });
                 }
             });
 
-        fetch(EVENTS_API + `/${this.state.id}`)
-            .then((response) => {
-                if (response.ok) {
-                    response.json().then(data => {
-                        this.setState({events: data})
-                    });
-                }
-            });
     }
 
     render(){
