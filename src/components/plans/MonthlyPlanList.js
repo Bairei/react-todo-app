@@ -23,19 +23,18 @@ export class MonthlyPlanList extends Component {
                 response.json().then(data => {
                     // console.log(data);
                     this.setState({persons: data});
+                    fetch(`${EVENTS_API}/${this.state.month}`)
+                    .then(response => {
+                        if (response.ok) {
+                            response.json().then(data => {
+                                // console.log(data);
+                                this.setState({events: data});
+                            });
+                        }
+                    });
                 });
             }
         });
-
-        fetch(`${EVENTS_API}/${this.state.month}`)
-            .then(response => {
-                if (response.ok) {
-                    response.json().then(data => {
-                        // console.log(data);
-                        this.setState({events: data});
-                    });
-                }
-            });
     }
 
     render() {
