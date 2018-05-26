@@ -52,7 +52,6 @@ export class EventCard extends Component {
                 break;
         }
 
-        // console.log(this.state.date);
         return(
             <div className="card">
                 <CategoryBar category={this.state.category}/>

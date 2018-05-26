@@ -38,11 +38,25 @@ export class PersonsPlanList extends Component {
     render(){
         let submittedAlert = '';
         if(typeof this.props.location.state !== 'undefined' && this.props.location.state.redirected) {
-            submittedAlert = (
-                <div className="alert alert-success">
-                    Wydarzenie pomyślnie zapisano!
-                </div>
-            );
+            if (this.props.location.state.deletionStatus) {
+                submittedAlert = (
+                    <div className="alert alert-success">
+                        Pomyślnie usunięto wydarzenie!
+                    </div>
+                );
+            } else if (this.props.location.state.deletionStatus === false) {
+                submittedAlert = (
+                    <div className="alert alert-success">
+                        Nie usunięto wybranego wydarzenia.
+                    </div>
+                );
+            } else {
+                submittedAlert = (
+                    <div className="alert alert-success">
+                        Wydarzenie pomyślnie zedytowano!
+                    </div>
+                );
+            }
         }
         let recordsComponent = '';
         let personComponent = '';

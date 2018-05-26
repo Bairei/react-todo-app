@@ -5,6 +5,7 @@ import { PersonsPlanList } from './components/plans/PersonsPlanList';
 import { MonthlyPlanList } from './components/plans/MonthlyPlanList';
 import { DailyPlanList } from './components/plans/DailyPlanList';
 import { EventForm } from './components/forms/EventForm';
+import { DeleteConfirmation } from './components/event/DeleteConfirmation';
 
 const Routes = () => {
     return (
@@ -13,6 +14,7 @@ const Routes = () => {
             <Route exact path="/" component={HomePage}/>
             <Route exact path="/event/create" component={EventForm}/>
             <Route exact path="/event/edit/:id" component={EventForm}/>
+            <Route exact path="/event/delete/:id" component={DeleteConfirmation}/>
             <Route exact path="/event/createWithPerson/:personId" component={EventForm}/>
             <Route exact path="/event/createWithDate/:date" component={EventForm}/>
             <Route exact path="/events/persons-plan/:id" component={PersonsPlanList}/>

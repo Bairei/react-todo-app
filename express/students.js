@@ -4,8 +4,9 @@ var router = express.Router();
 var students = [
     {id: 1, firstName: "Ala", lastName: 'Makota'},
     {id: 2, firstName: "Stefan", lastName: 'Kowalski'},
-    {id: 3, firstName: "Basia", lastName: 'Stanislawowska'},
-    {id: 4, firstName: "Wiesław", lastName: 'Dobrzycki'}
+    {id: 3, firstName: "Łukasz", lastName: 'Stanisławowski'},
+    {id: 4, firstName: "Wiesław", lastName: 'Dobrzycki'},
+    {id: 5, firstName: "Ewa", lastName: 'Sadowska'}
 ];
 
 module.exports = router;
