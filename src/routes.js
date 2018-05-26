@@ -12,6 +12,9 @@ const Routes = () => {
         <div className="jumbotron">
             <Route exact path="/" component={HomePage}/>
             <Route exact path="/event/create" component={EventForm}/>
+            <Route exact path="/event/edit/:id" component={EventForm}/>
+            <Route exact path="/event/createWithPerson/:personId" component={EventForm}/>
+            <Route exact path="/event/createWithDate/:date" component={EventForm}/>
             <Route exact path="/events/persons-plan/:id" component={PersonsPlanList}/>
             <Route exact path="/events/monthly-plan/:month" component={MonthlyPlanList}/>
             <Route exact path="/events/day-plan/:date" component={DailyPlanList}/>

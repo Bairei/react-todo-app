@@ -36,6 +36,14 @@ export class PersonsPlanList extends Component {
     }
 
     render(){
+        let submittedAlert = '';
+        if(this.props.location.state.redirected) {
+            submittedAlert = (
+                <div className="alert alert-success">
+                    Wydarzenie pomyślnie zapisano!
+                </div>
+            );
+        }
         let recordsComponent = '';
         let personComponent = '';
         if(this.state.events.length < 1) {
@@ -67,6 +75,7 @@ export class PersonsPlanList extends Component {
         return(
             <div>
                 <div>
+                    {submittedAlert}
                     {personComponent}
                     {/* TODO: create Events navigation bar, or skip it */}
                     {/* <events-navigation on-update-sort="setSort(key)" on-update-filter="setFilter(key)"></events-navigation> */}

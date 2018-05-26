@@ -39,7 +39,7 @@ export class CategorySelector extends Component {
         });
 
         return (
-            <select className="form-control col-sm-2" name="category" onChange={this.handleCategorySwitch.bind(this)}>
+            <select className="form-control col-sm-2" name="category" onChange={this.handleCategorySwitch.bind(this)} value={this.props.selectorValue}>
                 <option value="-1" disabled="true" defaultValue>---</option>
                 {categoryOptions}
             </select>

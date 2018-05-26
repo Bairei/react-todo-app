@@ -11,11 +11,12 @@ export class EventForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            date: props.date ? moment(props.date, 'YYYY-MM-DD') : moment(),
+            id: props.match.params.id ? props.match.params.id : -1,
+            date: props.match.params.date ? moment(props.match.params.date, 'MM-DD-YYYY') : moment(),
             title: props.title ? props.title : '',
             category: props.category ? props.category : -1,
             period: props.period ? props.period : -1,
-            person: props.person ? props.person : -1,
+            person: props.match.params.personId ? props.match.params.personId : -1,
             persons: [],
             isValid: false,
             isSubmitted: false
@@ -31,6 +32,22 @@ export class EventForm extends Component {
                 })
             }
         });
+        if(this.state.id != -1){
+            fetch(EVENTS_API + `/${this.state.id}`)
+            .then(response => {
+                if(response.ok) {
+                    response.json().then(data => {
+                        this.setState({
+                            date: moment(data.date, 'MM-DD-YYYY'),
+                            title: data.title,
+                            category: data.category,
+                            period: data.period,
+                            person: data.person
+                        })
+                    })
+                }
+            });
+        }
     }
 
     handleInput(event) {
@@ -58,19 +75,24 @@ export class EventForm extends Component {
                 category: this.state.category,
                 person: this.state.person,
                 period: this.state.period,
-                date: this.state.date.format('YYYY-MM-DD')
+                date: this.state.date.format('MM-DD-YYYY')
             }
-            console.log(body);
-
-            fetch(EVENTS_POST_API, {
+            // console.log(body);
+            let SUBMIT_API = EVENTS_API;
+            let method = 'post';
+            if (this.props.match.params.id) {
+                SUBMIT_API = EVENTS_API + `/${this.props.match.params.id}`;
+                method = 'put';
+            }
+            fetch(SUBMIT_API, {
                 body: JSON.stringify(body),
-                method: 'post',
+                method: method,
                 headers: {
                     'Content-Type': 'application/json'
                 }
                 
             }).then(response => {
-                response.json().then(json => console.log(json));
+                // response.json().then(json => this.setState({isSubmitted: true}));
                 this.setState({isSubmitted: true});
             })
 
@@ -92,7 +114,26 @@ export class EventForm extends Component {
 
         if(this.state.isSubmitted) {
             return (
-                <Redirect to="/"/>
+                <Redirect to={{
+                    pathname: `/events/persons-plan/${this.state.person}`,
+                    state: {
+                        redirected: true,
+                        id: this.state.id,
+                        person: this.state.person
+                    }
+                }}/>
+            );
+        }
+        let eventAlert = (
+            <div className="alert alert-warning" role="alert">
+                Tworzysz nowe wydarzenie.
+            </div>
+        );
+        if(this.state.id != -1) {
+            eventAlert = (
+                <div className="alert alert-warning" role="alert">
+                    Edytujesz wydarzenie o id <strong>{this.state.id}</strong>.
+                </div>
             );
         }
 
@@ -104,41 +145,38 @@ export class EventForm extends Component {
 
         return(
             <div className="col-sm">
-                <div className="alert alert-warning" role="alert">
-                    Tworzysz nowe wydarzenie.
-                </div>
+                {eventAlert}
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <div className="form-group">
-                        <label htmlFor="title">
-                            <input  
-                                    type="text" className="form-control" 
+                        <label htmlFor="title">Tytuł:</label>
+                        <input  
+                                    type="text" className="form-control col-sm-6" 
                                     id="title" placeholder="Wpisz tytuł"
                                     value={this.state.title}
                                     name="title" onChange={this.handleInput.bind(this)}/>
-                        </label>
                     </div>                  
 
                     <div className="form-group">
                         <label htmlFor="event-category">Kategoria</label>
                         {/* TODO: categoryselector */}
-                        <CategorySelector onUpdateHandler={this.handleInput.bind(this)} />
+                        <CategorySelector onUpdateHandler={this.handleInput.bind(this)} selectorValue={this.state.category}/>
                         {/* <CategorySelector name="category" id="event-category" onCategoryChange={this.handleInput.bind(this)}/> */}
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="date">Data</label>
-                        <DatePicker dateFormat='YYYY-MM-DD' className="form-control" selected={this.state.date} onChange={this.handleDateChange.bind(this)} name="date" />
+                        <DatePicker dateFormat='DD.MM.YYYY' className="form-control" selected={this.state.date} onChange={this.handleDateChange.bind(this)} name="date" />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="period">Przedział czasowy</label>
                         {/* TODO: time period */}
-                        <TimePeriodSelector onUpdateHandler={this.handleInput.bind(this)}/>
+                        <TimePeriodSelector onUpdateHandler={this.handleInput.bind(this)} selectorValue={this.state.period}/>
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="person">Osoba</label>
-                        <select name="person" className="form-control col-sm-4" id="person" onInput={this.handleInput.bind(this)}>
+                        <select name="person" className="form-control col-sm-4" id="person" onChange={this.handleInput.bind(this)} value={this.state.person}>
                             <option value="-1" defaultValue disabled>---</option>
                             {personsOptions}
                         </select>
@@ -152,4 +190,4 @@ export class EventForm extends Component {
 }
 
 const STUDENTS_API = 'http://localhost:4000/students';
-const EVENTS_POST_API = 'http://localhost:4000/events/';
+const EVENTS_API = 'http://localhost:4000/events';

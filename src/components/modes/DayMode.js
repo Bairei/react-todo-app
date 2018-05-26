@@ -64,7 +64,7 @@ export class DayMode extends Component {
                         className="form-control"
                         onChange={this.handleInput.bind(this)}
                         includeDates={this.state.availableDates}
-                        dateFormat="MM-DD-YYYY"/>
+                        dateFormat="DD.MM.YYYY"/>
                     {/* <datepicker date-format="MM-dd-yyyy">
                         <input name="date" className="form-control" type="text" onChange={ this.handleInput.bind(this) }/>
                     </datepicker> */}
