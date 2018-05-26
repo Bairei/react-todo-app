@@ -13,6 +13,7 @@ export class EventForm extends Component {
         this.state = {
             id: props.match.params.id ? props.match.params.id : -1,
             date: props.match.params.date ? moment(props.match.params.date, 'MM-DD-YYYY') : moment(),
+            originalDate: props.match.params.date ? moment(props.match.params.date, 'MM-DD-YYYY') : null,
             title: props.title ? props.title : '',
             category: props.category ? props.category : -1,
             period: props.period ? props.period : -1,
@@ -39,6 +40,7 @@ export class EventForm extends Component {
                     response.json().then(data => {
                         this.setState({
                             date: moment(data.date, 'MM-DD-YYYY'),
+                            originalDate: moment(data.date, 'MM-DD-YYYY'),
                             title: data.title,
                             category: data.category,
                             period: data.period,
@@ -101,8 +103,9 @@ export class EventForm extends Component {
     }
 
     validateData() {
-        // console.log(this.state.date.isSameOrAfter(moment(), 'day'));
-        if (this.state.date.isSameOrAfter(moment(), 'day') && this.state.title &&
+        let dateToValidate = this.state.originalDate === null ? moment() : this.state.originalDate; // when editing,
+        // allow users to choose a date that is either the same as previously chosen or a later one
+        if (this.state.date.isSameOrAfter(dateToValidate, 'day') && this.state.title &&
             this.state.category > 0 && this.state.period > 0 && this.state.person > 0) {
                 this.setState({isValid: true});
             } else {
@@ -129,7 +132,7 @@ export class EventForm extends Component {
                 Tworzysz nowe wydarzenie.
             </div>
         );
-        if(this.state.id != -1) {
+        if(this.state.id !== -1) {
             eventAlert = (
                 <div className="alert alert-warning" role="alert">
                     Edytujesz wydarzenie o id <strong>{this.state.id}</strong>.
@@ -141,7 +144,9 @@ export class EventForm extends Component {
             return(
                 <option value={person.id} key={person.id}>#{person.id} - {person.firstName} {person.lastName}</option>
             );
-        })
+        });
+
+        let saveButtonText = this.state.id !== -1 ? 'Zapisz zmiany' : 'Utwórz wydarzenie';
 
         return(
             <div className="col-sm">
@@ -182,7 +187,7 @@ export class EventForm extends Component {
                         </select>
                     </div>
 
-                    <button id="submit" type="submit" className="btn btn-primary" disabled={!this.state.isValid}>Stwórz wydarzenie</button>
+                    <button id="submit" type="submit" className="btn btn-primary" disabled={!this.state.isValid}>{ saveButtonText }</button>
                 </form>
             </div>
         );

@@ -33,7 +33,7 @@ export class TimePeriodSelector extends Component {
         });
 
         return (
-            <select className="form-control col-sm-1" name="period" onChange={this.handlePeriodSwitch.bind(this)} value={this.props.selectorValue}>
+            <select className="form-control col-sm-3" name="period" onChange={this.handlePeriodSwitch.bind(this)} value={this.props.selectorValue}>
                 <option value="-1" defaultValue disabled>---</option>
                 {periodOptions}
             </select>
