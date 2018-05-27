@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {  Link } from 'react-router-dom';
 import moment from 'moment';
+import axios from 'axios';
 
 import { EventCard } from '../event/EventCard';
 
@@ -16,23 +17,13 @@ export class PersonsPlanList extends Component {
     }
 
     componentWillMount(){
-        fetch(STUDENT_API + `/${this.state.id}`)
-            .then(response => {
-                if(response.ok) {
-                    response.json().then(data => {
-                        this.setState({person: data});
-                        fetch(EVENTS_API + `/${this.state.id}`)
-                        .then((response) => {
-                            if (response.ok) {
-                                response.json().then(data => {
-                                    this.setState({events: data})
-                                });
-                            }
-                        });
-                    });
-                }
-            });
-
+        axios.get(STUDENT_API + `/${this.state.id}`)
+        .then(response => {
+            this.setState({person: response.data})
+            axios.get(EVENTS_API + `/${this.state.id}`)
+            .then(response => this.setState({events: response.data}))
+            .catch(err => console.error(err));
+        }).catch(err => console.error(err));
     }
 
     render(){
@@ -53,7 +44,7 @@ export class PersonsPlanList extends Component {
             } else {
                 submittedAlert = (
                     <div className="alert alert-success">
-                        Wydarzenie pomyślnie zedytowano!
+                        Wydarzenie pomyślnie zapisano!
                     </div>
                 );
             }
@@ -65,7 +56,6 @@ export class PersonsPlanList extends Component {
                 <div>Przepraszamy, ale ta osoba nie ma żadnych wydarzeń. Możesz jednak stworzyć nowe wydarzenie, używając przycisków na dole.</div>
             );
         } else {
-            // TODO: create EventComponent and replace unordered list component with iterated components
             let recordsList = this.state.events.map(event => {
                 return (
                     <EventCard  key={event.id} id={event.id} title={event.title} date={moment(event.date, 'MM-DD-YYYY')} 

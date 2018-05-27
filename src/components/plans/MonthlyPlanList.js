@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {  Link } from 'react-router-dom';
+import axios from 'axios';
 
 import { MonthDisplay } from './MonthDisplay';
 import { EventCard } from '../event/EventCard';
@@ -17,24 +18,13 @@ export class MonthlyPlanList extends Component {
     }
 
     componentWillMount() {
-        fetch(STUDENTS_API)
+        axios.get(STUDENTS_API)
         .then(response => {
-            if (response.ok) {
-                response.json().then(data => {
-                    // console.log(data);
-                    this.setState({persons: data});
-                    fetch(`${EVENTS_API}/${this.state.month}`)
-                    .then(response => {
-                        if (response.ok) {
-                            response.json().then(data => {
-                                // console.log(data);
-                                this.setState({events: data});
-                            });
-                        }
-                    });
-                });
-            }
-        });
+            this.setState({persons: response.data});
+            axios.get(`${EVENTS_API}/${this.state.month}`)
+            .then(response => this.setState({events: response.data}))
+            .catch(err => console.error(err));
+        }).catch(err => console.error(err));
     }
 
     render() {
@@ -44,18 +34,11 @@ export class MonthlyPlanList extends Component {
                 <div>Przepraszamy, ale w tym miesiącu nie ma żadnych wydarzeń. Możesz jednak stworzyć nowe wydarzenie, używając przycisków na dole.</div>
             );
         } else {
-            // TODO: switch from creating an unordered list to EventComponent
             let recordsList = this.state.events.map(event => {
-                // console.log(event);
                 let person = this.state.persons.find(person => {
-                    // console.log(`${person.id}`);
-                    // console.log(event.person);
-                    // console.log(`equals: ${person.id} ${event.person} == ${person.id == event.person}`);
                     return person.id == event.person;
                 });
-                // console.log(person);
                 return (
-                    //<li key={event.id}>{event.id} - {event.title}, by: {person.firstName} {person.lastName}</li>
                     <EventCard  key={event.id} id={event.id} title={event.title} date={moment(event.date, 'MM-DD-YYYY')} 
                                 period={event.period} personId={person.id} personFirstName={person.firstName}
                                 personLastName={person.lastName} category={event.category}/>
@@ -90,5 +73,4 @@ const STUDENTS_API = 'http://localhost:4000/students';
 MonthlyPlanList.propTypes = {
     events: PropTypes.array,
     persons: PropTypes.array,
-    // month: PropTypes.any.isRequired
 }

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 import moment from 'moment';
+import axios from 'axios'
 
 export class DeleteConfirmation extends Component {
     constructor(props) {
@@ -18,31 +19,22 @@ export class DeleteConfirmation extends Component {
     }
 
     componentDidMount() {
-        fetch(EVENTS_API + `/${this.state.id}`)
-            .then(response => {
-                if (response.ok) {
-                    response.json().then(data => {
-                        this.setState({
-                            date: moment(data.date, 'MM-DD-YYYY'),
-                            title: data.title,
-                            person: data.person
-                        })
-                    })
-                }
-            })
+        axios.get(EVENTS_API + `/${this.state.id}`)
+        .then(response => {
+            let data = response.data;
+            this.setState({
+                date: moment(data.date, 'MM-DD-YYYY'),
+                title: data.title,
+                person: data.person
+            });
+        }).catch(err => console.error(err));
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        fetch(EVENTS_API + `/${this.props.match.params.id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-
-        }).then(() => {
-            this.setState({isSubmitted: true});
-        })
+        axios.delete(EVENTS_API + `/${this.props.match.params.id}`)
+        .then(() => this.setState({isSubmitted: true}))
+        .catch(err => console.error(err));
     }
 
     handleCancellation() {

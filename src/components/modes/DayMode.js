@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import axios from 'axios';
 import 'react-datepicker/dist/react-datepicker.css';
 
 export class DayMode extends Component {
@@ -17,7 +18,6 @@ export class DayMode extends Component {
 
     handleInput(event) {
         console.log(event.format('MM-DD-YYYY'));
-        //console.log(event.target.value);
         this.setState({
             date: event
         });
@@ -32,24 +32,22 @@ export class DayMode extends Component {
     }
 
     componentDidMount() {
-        fetch(EVENTS_API)
-            .then(response => {
-                if(response.ok) {
-                    response.json().then(data => {
-                        let dates = data.map(item => {
-                            return moment(item.date, 'MM-DD-YYYY');
-                        });
+        axios.get(EVENTS_API)
+        .then(response => {
+            let data = response.data;
+            let dates = data.map(item => {
+                return moment(item.date, 'MM-DD-YYYY');
+            });
 
-                        let found = dates.find(function (value) {
-                            return value.format('MM-DD-YYYY') === moment().format('MM-DD-YYYY');
-                        });
-                        this.setState({
-                            availableDates: dates,
-                            date: typeof found === 'undefined' ? null : moment()
-                        });
-                    });
-                }
-            })
+            let found = dates.find(function (value) {
+                return value.format('MM-DD-YYYY') === moment().format('MM-DD-YYYY');
+            });
+            this.setState({
+                availableDates: dates,
+                date: typeof found === 'undefined' ? null : moment()
+            });
+        })
+        .catch(err => console.error(err));
     }
 
     render() {
@@ -65,15 +63,11 @@ export class DayMode extends Component {
                     Proszę wprowadzić datę, z której chcesz obejrzeć wydarzenia (możesz wybrać tylko daty, z którymi powiązane są jakieś wydarzenia):
                 </p>
                 <div>
-                    {/* TODO: datepicker handler */}
                     <DatePicker selected={this.state.date}
                         className="form-control"
                         onChange={this.handleInput.bind(this)}
                         includeDates={this.state.availableDates}
                         dateFormat="DD.MM.YYYY"/>
-                    {/* <datepicker date-format="MM-dd-yyyy">
-                        <input name="date" className="form-control" type="text" onChange={ this.handleInput.bind(this) }/>
-                    </datepicker> */}
                     <br/><br/>
                     <div className="btn-group">
                         <button className="btn btn-primary" onClick={() => this.goToDayMode()}>Przejdź dalej</button>

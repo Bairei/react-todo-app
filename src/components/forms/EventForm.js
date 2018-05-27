@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
+import axios from 'axios';
+
 import 'react-datepicker/dist/react-datepicker.css';
+
 import { CategorySelector } from './CategorySelector';
 import { TimePeriodSelector } from './TimePeriodSelector';
 
@@ -25,33 +28,52 @@ export class EventForm extends Component {
     }
 
     componentDidMount() {
-        fetch(STUDENTS_API)
-        .then(response => {
-            if (response.ok) {
-                response.json().then(data => {
-                    this.setState({persons: data});
-                })
-            }
-        });
-        if(this.state.id != -1){
-            fetch(EVENTS_API + `/${this.state.id}`)
+        // fetch(STUDENTS_API)
+        // .then(response => {
+        //     if (response.ok) {
+        //         response.json().then(data => {
+        //             this.setState({persons: data});
+        //         })
+        //     }
+        // });
+        // if(this.state.id != -1){
+        //     fetch(EVENTS_API + `/${this.state.id}`)
+        //     .then(response => {
+        //         if(response.ok) {
+        //             response.json().then(data => {
+        //                 this.setState({
+        //                     date: moment(data.date, 'MM-DD-YYYY'),
+        //                     originalDate: moment(data.date, 'MM-DD-YYYY'),
+        //                     title: data.title,
+        //                     category: data.category,
+        //                     period: data.period,
+        //                     person: data.person
+        //                 })
+        //             })
+        //         }
+        //     })
+        //     .then(unusedVariable => {
+        //         this.validateData(); // validate everything after fetching from API when editing, so the save button will be available if everything's ok
+        //     });
+        // }
+        axios.get(STUDENTS_API)
+        .then(response => this.setState({persons: response.data}))
+        .catch(err => console.error(err));
+
+        if (this.state.id != -1) {
+            axios.get(EVENTS_API + `/${this.state.id}`)
             .then(response => {
-                if(response.ok) {
-                    response.json().then(data => {
-                        this.setState({
-                            date: moment(data.date, 'MM-DD-YYYY'),
-                            originalDate: moment(data.date, 'MM-DD-YYYY'),
-                            title: data.title,
-                            category: data.category,
-                            period: data.period,
-                            person: data.person
-                        })
-                    })
-                }
-            })
-            .then(unusedVariable => {
-                this.validateData(); // validate everything after fetching from API when editing, so the save button will be available if everything's ok
-            });
+                let data = response.data;
+                this.setState({
+                    date: moment(data.date, 'MM-DD-YYYY'),
+                    originalDate: moment(data.date, 'MM-DD-YYYY'),
+                    title: data.title,
+                    category: data.category,
+                    period: data.period,
+                    person: data.person
+                });
+            }).then (() => this.validateData()) // validate everything after fetching from API when editing, so the save button will be available if everything's ok
+            .catch(err => console.error(err));
         }
     }
 
@@ -82,24 +104,20 @@ export class EventForm extends Component {
                 period: this.state.period,
                 date: this.state.date.format('MM-DD-YYYY')
             }
-            // console.log(body);
             let SUBMIT_API = EVENTS_API;
             let method = 'post';
+
             if (this.props.match.params.id) {
                 SUBMIT_API = EVENTS_API + `/${this.props.match.params.id}`;
                 method = 'put';
             }
-            fetch(SUBMIT_API, {
-                body: JSON.stringify(body),
+            
+            axios(SUBMIT_API, {
                 method: method,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-                
-            }).then(response => {
-                // response.json().then(json => this.setState({isSubmitted: true}));
-                this.setState({isSubmitted: true});
-            })
+                url: SUBMIT_API,
+                data: body
+            }).then(response => this.setState({isSubmitted: true}))
+            .catch(err => console.error(err));
 
             
         }

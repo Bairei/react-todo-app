@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
+import axios from 'axios';
 
 export class PersonMode extends Component {
     
@@ -14,9 +15,8 @@ export class PersonMode extends Component {
     }
 
     componentDidMount() {
-        fetch(API).then(response => {
-            response.json().then(data => this.setState({persons: data}));
-        });
+        axios.get(API).then(response => this.setState({persons: response.data}))
+        .catch(err => console.error(err));
     }
     
     handlePersonSwitched(event) {

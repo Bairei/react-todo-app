@@ -21,7 +21,6 @@ export class TimePeriodSelector extends Component {
     }
 
     handlePeriodSwitch(event) {
-        // console.log(event.target.value);
         this.setState({period: event.target.value});
         this.props.onUpdateHandler(event);
     }

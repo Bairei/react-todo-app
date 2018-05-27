@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 export class DefaultMode extends Component {
 
     handleSwitchMode(value) {
-        // console.log('mode switched: ' + value);
         this.props.onModeSwitched(value);
     }
 

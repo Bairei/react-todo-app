@@ -15,7 +15,6 @@ export class MonthMode extends Component {
     }
 
     handleMonthSwitched(value) {
-        // console.log(value);
         this.setState({
             month: value
         });

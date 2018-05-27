@@ -25,7 +25,6 @@ export class MonthSelector extends Component {
     }
 
     handleMonthSwitch(event) {
-        // console.log(event.target.value);
         this.setState({month: event.target.value});
         this.props.onUpdateHandler(event.target.value);
     }
