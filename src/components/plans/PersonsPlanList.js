@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {  Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import axios from 'axios';
 
@@ -82,10 +82,6 @@ export class PersonsPlanList extends Component {
                     {submittedAlert}
                     {personComponent}
                     {/* TODO: create Events navigation bar, or skip it */}
-                    {/* <events-navigation on-update-sort="setSort(key)" on-update-filter="setFilter(key)"></events-navigation> */}
-                    {/* <div ng-repeat="event in events | filter: filterPhrase | orderBy: orderByPhrase">
-                        <show-event id="event.id" title="event.title" category="event.category" date="event.date" period="event.period" person="event.person"></show-event>
-                    </div> */}
                     {recordsComponent}
                 </div>
                 <br/>
@@ -95,6 +91,12 @@ export class PersonsPlanList extends Component {
             </div>
         );
     }
+}
+
+PersonsPlanList.propTypes = {
+    id: PropTypes.number || PropTypes.string,
+    person: PropTypes.object,
+    events: PropTypes.array
 }
 
 const STUDENT_API = 'http://localhost:4000/students'

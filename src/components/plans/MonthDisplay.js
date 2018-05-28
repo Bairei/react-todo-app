@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 
 export const MonthDisplay = (props) => {
@@ -53,5 +52,5 @@ export const MonthDisplay = (props) => {
 }
 
 MonthDisplay.propTypes = {
-    month: PropTypes.string .isRequired
+    month: PropTypes.string.isRequired
 }

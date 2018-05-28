@@ -13,9 +13,6 @@ export const Header = () => {
                     <li className="nav-item">
                         <Link className="nav-link" to="/event/create">Nowe wydarzenie</Link>
                     </li>
-                    {/* <li className="nav-item">
-                        <a className="nav-link" back>Wstecz</a>
-                    </li> */}
                 </ul>
             </div>
         </nav>

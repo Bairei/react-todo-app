@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
@@ -28,39 +27,11 @@ export class EventForm extends Component {
     }
 
     componentDidMount() {
-        // fetch(STUDENTS_API)
-        // .then(response => {
-        //     if (response.ok) {
-        //         response.json().then(data => {
-        //             this.setState({persons: data});
-        //         })
-        //     }
-        // });
-        // if(this.state.id != -1){
-        //     fetch(EVENTS_API + `/${this.state.id}`)
-        //     .then(response => {
-        //         if(response.ok) {
-        //             response.json().then(data => {
-        //                 this.setState({
-        //                     date: moment(data.date, 'MM-DD-YYYY'),
-        //                     originalDate: moment(data.date, 'MM-DD-YYYY'),
-        //                     title: data.title,
-        //                     category: data.category,
-        //                     period: data.period,
-        //                     person: data.person
-        //                 })
-        //             })
-        //         }
-        //     })
-        //     .then(unusedVariable => {
-        //         this.validateData(); // validate everything after fetching from API when editing, so the save button will be available if everything's ok
-        //     });
-        // }
         axios.get(STUDENTS_API)
         .then(response => this.setState({persons: response.data}))
         .catch(err => console.error(err));
 
-        if (this.state.id != -1) {
+        if (this.state.id !== -1) {
             axios.get(EVENTS_API + `/${this.state.id}`)
             .then(response => {
                 let data = response.data;
@@ -80,8 +51,6 @@ export class EventForm extends Component {
     handleInput(event) {
         let target = event.target;
         let name = target.name;
-        // console.log(name);
-        // console.log(event.target.value);
         this.setState({
             [name]: target.value,
         }, () => { this.validateData() });
@@ -184,9 +153,7 @@ export class EventForm extends Component {
 
                     <div className="form-group">
                         <label htmlFor="event-category">Kategoria</label>
-                        {/* TODO: categoryselector */}
                         <CategorySelector onUpdateHandler={this.handleInput.bind(this)} selectorValue={this.state.category}/>
-                        {/* <CategorySelector name="category" id="event-category" onCategoryChange={this.handleInput.bind(this)}/> */}
                     </div>
 
                     <div className="form-group">
@@ -196,7 +163,6 @@ export class EventForm extends Component {
 
                     <div className="form-group">
                         <label htmlFor="period">Przedział czasowy</label>
-                        {/* TODO: time period */}
                         <TimePeriodSelector onUpdateHandler={this.handleInput.bind(this)} selectorValue={this.state.period}/>
                     </div>
 
@@ -214,6 +180,8 @@ export class EventForm extends Component {
         );
     }
 }
+
+
 
 const STUDENTS_API = 'http://localhost:4000/students';
 const EVENTS_API = 'http://localhost:4000/events';

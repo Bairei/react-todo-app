@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+
 import { HomePage } from './components/HomePage';
 import { PersonsPlanList } from './components/plans/PersonsPlanList';
 import { MonthlyPlanList } from './components/plans/MonthlyPlanList';

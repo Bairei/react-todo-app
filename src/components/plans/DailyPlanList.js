@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import axios from 'axios';
@@ -37,7 +36,7 @@ export class DailyPlanList extends Component {
         } else {
             let recordsList = this.state.events.map(event => {
                 let person = this.state.persons.find(person => {
-                    return person.id == event.person;
+                    return person.id === event.person;
                 });
                 return (
                     <EventCard  key={event.id} id={event.id} title={event.title} date={moment(event.date, 'MM-DD-YYYY')} 

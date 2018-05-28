@@ -17,7 +17,6 @@ export class DayMode extends Component {
     }
 
     handleInput(event) {
-        console.log(event.format('MM-DD-YYYY'));
         this.setState({
             date: event
         });

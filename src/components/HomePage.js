@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+
 import { DefaultMode } from './modes/DefaultMode';
 import { PersonMode } from './modes/PersonMode';
 import { DayMode } from './modes/DayMode';
@@ -16,7 +17,6 @@ export class HomePage extends Component {
     }
 
     handleSwitchMode(value) {
-        // console.log('received value: ' + value);
         this.setState({
             mode: value
         })

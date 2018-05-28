@@ -6,7 +6,7 @@ var router = express.Router();
 //{id: 2, title: 'Nauka'},
 //{id: 3, title: 'Odpoczynek'}
 var events = [
-    {id: 1, title: 'Zrobić zakupy spozywcze', category: 1, date: '05-21-2018', period: 1, person: 1},
+    {id: 1, title: 'Zrobić zakupy spożywcze', category: 1, date: '05-21-2018', period: 1, person: 1},
     {id: 2, title: 'Pójść do kina', category: 3, date: '05-11-2018', period: 3, person: 1},
     {id: 3, title: 'Odrobić lekcje', category: 2, date: '05-21-2018', period: 5, person: 1},
     {id: 4, title: 'Zrobić projekt z BSK', category: 1, date: '05-13-2018', period: 2, person: 2},
@@ -98,7 +98,7 @@ router.post('/', function (req, res) {
 });
 
 router.put('/:id', function (req, res) {
-    if((!req.body.title || !req.body.category || !req.body.date || !req.body.period || !req.params.id.toString().match(/^[0-9]+$/g))) {
+    if((!req.body.title || !req.body.category || !req.body.date || !req.body.period || !req.body.person || !req.params.id.toString().match(/^[0-9]+$/g))) {
         res.status(400);
         res.json({message: "Bad Request put"});
     } else {
@@ -113,6 +113,7 @@ router.put('/:id', function (req, res) {
             events[updateIndex].category = parseInt(req.body.category);
             events[updateIndex].date = req.body.date;
             events[updateIndex].period = parseInt(req.body.period);
+            events[updateIndex].person = parseInt(req.body.person);
             res.json({message: "Event id " + req.params.id + " updated.",
                 location: "/events/" + req.params.id});
         }

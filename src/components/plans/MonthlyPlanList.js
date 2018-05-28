@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {  Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment';
+
 
 import { MonthDisplay } from './MonthDisplay';
 import { EventCard } from '../event/EventCard';
-import moment from 'moment';
 
 export class MonthlyPlanList extends Component {
     constructor(props) {
@@ -36,7 +37,7 @@ export class MonthlyPlanList extends Component {
         } else {
             let recordsList = this.state.events.map(event => {
                 let person = this.state.persons.find(person => {
-                    return person.id == event.person;
+                    return person.id === event.person;
                 });
                 return (
                     <EventCard  key={event.id} id={event.id} title={event.title} date={moment(event.date, 'MM-DD-YYYY')} 
