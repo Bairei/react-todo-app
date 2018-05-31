@@ -14,9 +14,7 @@ export class EventCard extends Component {
             category: props.category,
             date: props.date,
             period: props.period,
-            personId: props.personId,
-            personFirstName: props.personFirstName,
-            personLastName: props.personLastName
+            person: props.person
         }
     }
 
@@ -61,7 +59,7 @@ export class EventCard extends Component {
                     <p className="card-text"><b>Przedział czasowy:</b> {periodStr}</p>
                     <p className="card-text">
                         <b>Osoba: </b> 
-                        <Link to={`/events/persons-plan/${this.state.personId}`}>{this.state.personFirstName} {this.state.personLastName}</Link>
+                        <Link to={`/events/persons-plan/${this.state.person.id}`}>{this.state.person.firstName} {this.state.person.lastName}</Link>
                     </p>
                     <div className="btn-group">
                         <Link to={`/event/edit/${this.state.id}`} className="btn btn-primary">Edytuj</Link>
@@ -79,7 +77,27 @@ EventCard.propTypes = {
     category: PropTypes.number.isRequired,
     date: PropTypes.object.isRequired,
     period: PropTypes.number.isRequired,
-    personId: PropTypes.number.isRequired,
-    personFirstName: PropTypes.string.isRequired,
-    personLastName: PropTypes.string.isRequired
+    person: function(props, propName, componentName) {
+        let checkedProp = props[propName];
+        
+        if (typeof(checkedProp.id) === undefined || checkedProp.id < 1 ) {
+            return new Error(
+                'Invalid prop `' + propName + '` supplied to' +
+                ' `' + componentName + '`. Validation failed. Reason: invalid person\'s id was provided.'
+              );
+        }
+        if (typeof(checkedProp.firstName) === undefined || checkedProp.firstName.length < 1) {
+            return new Error(
+                'Invalid prop `' + propName + '` supplied to' +
+                ' `' + componentName + '`. Validation failed. Reason: invalid person\'s first name was provided.'
+              );
+        }
+        if (typeof(checkedProp.lastName) === undefined || checkedProp.lastName.length < 1) {
+            return new Error(
+                'Invalid prop `' + propName + '` supplied to' +
+                ' `' + componentName + '`. Validation failed. Reason: invalid person\'s last name was provided.'
+              );
+        }
+
+    }
 }

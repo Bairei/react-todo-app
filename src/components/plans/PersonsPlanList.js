@@ -59,8 +59,7 @@ export class PersonsPlanList extends Component {
             let recordsList = this.state.events.map(event => {
                 return (
                     <EventCard  key={event.id} id={event.id} title={event.title} date={moment(event.date, 'MM-DD-YYYY')} 
-                                period={event.period} personId={this.state.person.id} personFirstName={this.state.person.firstName}
-                                personLastName={this.state.person.lastName} category={event.category}/>
+                                period={event.period} person={this.state.person} category={event.category}/>
                 );
             });
             recordsComponent = (

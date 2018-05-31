@@ -40,8 +40,7 @@ export class DailyPlanList extends Component {
                 });
                 return (
                     <EventCard  key={event.id} id={event.id} title={event.title} date={moment(event.date, 'MM-DD-YYYY')} 
-                                period={event.period} personId={person.id} personFirstName={person.firstName}
-                                personLastName={person.lastName} category={event.category}/>
+                                period={event.period} person={person} category={event.category}/>
                 );
             });
 
