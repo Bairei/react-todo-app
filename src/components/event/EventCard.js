@@ -80,19 +80,19 @@ EventCard.propTypes = {
     person: function(props, propName, componentName) {
         let checkedProp = props[propName];
         
-        if (typeof(checkedProp.id) === undefined || checkedProp.id < 1 ) {
+        if (typeof(checkedProp.id) === 'undefined' || checkedProp.id < 1 ) {
             return new Error(
                 'Invalid prop `' + propName + '` supplied to' +
                 ' `' + componentName + '`. Validation failed. Reason: invalid person\'s id was provided.'
               );
         }
-        if (typeof(checkedProp.firstName) === undefined || checkedProp.firstName.length < 1) {
+        if (typeof(checkedProp.firstName) === 'undefined' || checkedProp.firstName.length < 1) {
             return new Error(
                 'Invalid prop `' + propName + '` supplied to' +
                 ' `' + componentName + '`. Validation failed. Reason: invalid person\'s first name was provided.'
               );
         }
-        if (typeof(checkedProp.lastName) === undefined || checkedProp.lastName.length < 1) {
+        if (typeof(checkedProp.lastName) === 'undefined' || checkedProp.lastName.length < 1) {
             return new Error(
                 'Invalid prop `' + propName + '` supplied to' +
                 ' `' + componentName + '`. Validation failed. Reason: invalid person\'s last name was provided.'
