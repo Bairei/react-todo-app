@@ -55,7 +55,6 @@ export class DayMode extends Component {
                 <Redirect to={"/events/day-plan/" + this.state.date.format('MM-DD-YYYY')}/>
             );
         }
-
         return(
             <div>
                 <p className="lead">
@@ -69,7 +68,7 @@ export class DayMode extends Component {
                         dateFormat="DD.MM.YYYY"/>
                     <br/><br/>
                     <div className="btn-group">
-                        <button className="btn btn-primary" onClick={() => this.goToDayMode()}>Przejdź dalej</button>
+                        <button className="btn btn-primary" disabled={this.state.date === null} onClick={() => this.goToDayMode()}>Przejdź dalej</button>
                         <button className="btn btn-warning" onClick={() => { this.clearChoice(); }}>Cofnij wybór</button>
                     </div>
                 </div>

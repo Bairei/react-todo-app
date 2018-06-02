@@ -67,8 +67,10 @@ export class DeleteConfirmation extends Component {
                 </div>
 
                 <form onSubmit={this.handleSubmit.bind(this)}>
-                    <button id="submit" type="submit" className="btn btn-danger">Tak, usuń!</button>
-                    <button onClick={this.handleCancellation} className="btn btn-primary">Nie, nie usuwaj</button>
+                    <div className="btn-group">
+                        <button id="submit" type="submit" className="btn btn-danger">Tak, usuń!</button>
+                        <button onClick={this.handleCancellation} className="btn btn-primary">Nie, nie usuwaj</button>
+                    </div>
                 </form>
             </div>
         )
